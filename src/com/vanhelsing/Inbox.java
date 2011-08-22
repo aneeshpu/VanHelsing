@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -32,18 +32,14 @@ public class Inbox extends ListActivity {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
-				Log.i("aneesh", "aneesh long pressed message: " + ((TextView)view).getText());
+				LinearLayout linearLayout = (LinearLayout)view;
+				
+				TextView textView = (TextView)linearLayout.getChildAt(0);
+				
+				Log.i("aneesh", "aneesh long pressed message: " + (textView.getText()));
 				return true;
 			}
 
-		});
-
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
-				Log.i("aneesh", "aneesh clicked message: " + ((TextView)view).getText());
-			}
 		});
 
 	}

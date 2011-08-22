@@ -2,4 +2,6 @@
 <resources>
     <string name="hello">Hello World, Inbox!</string>
     <string name="app_name">VanHelsing</string>
+    <string name="mark_as_spam">Mark as Spam</string>
+    <string name="dummy">Dummy</string>
 </resources>

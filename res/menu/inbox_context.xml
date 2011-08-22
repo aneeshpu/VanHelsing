@@ -1,0 +1,4 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/mark_as_spam" android:title="@string/mark_as_spam"/>
+	<item android:id="@+id/dummy" android:title="@string/dummy"/>
+</menu>

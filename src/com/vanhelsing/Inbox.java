@@ -5,9 +5,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -28,19 +30,24 @@ public class Inbox extends ListActivity {
 		ListView listView = getListView();
 		listView.setTextFilterEnabled(true);
 
-		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+		registerForContextMenu(listView);
+		
 
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
-				LinearLayout linearLayout = (LinearLayout)view;
-				
-				TextView textView = (TextView)linearLayout.getChildAt(0);
-				
-				Log.i("aneesh", "aneesh long pressed message: " + (textView.getText()));
-				return true;
-			}
-
-		});
-
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		
+		AdapterView.AdapterContextMenuInfo contextMenuInfo = (AdapterView.AdapterContextMenuInfo)menuInfo; 
+		LinearLayout linearLayout = (LinearLayout)contextMenuInfo.targetView;
+		
+		TextView textView = (TextView)linearLayout.getChildAt(0);
+		
+		Log.i("aneesh", "aneesh long pressed message: " + (textView.getText()));
+		
+		menu.setHeaderTitle("Spam picker");
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.inbox_context, menu);
 	}
 }

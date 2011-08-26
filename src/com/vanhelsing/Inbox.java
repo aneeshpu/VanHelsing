@@ -1,6 +1,6 @@
 package com.vanhelsing;
 
-import com.vanhelsing.brain.Classifier;
+import com.vanhelsing.brain.NaiveBayesianClassifier;
 
 import android.app.ListActivity;
 import android.database.Cursor;
@@ -61,7 +61,7 @@ public class Inbox extends ListActivity {
 		LinearLayout targetView = (LinearLayout) contextMenuInfo.targetView;
 		
 		TextView textView = (TextView) targetView.getChildAt(0);
-		new Classifier().markAsSpam((String)textView.getText());
+		new NaiveBayesianClassifier().markAsSpam((String)textView.getText());
 		return true;
 
 	}

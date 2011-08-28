@@ -6,10 +6,12 @@ import java.util.Set;
 
 final class Trainer {
 
-	private final Map<String, Map<Classification, Integer>> featureCount = new HashMap<String, Map<Classification, Integer>>();
+	private final DefaultMap<String, Map<Classification, Integer>> featureCount = new DefaultMap<String, Map<Classification, Integer>>(new HashMap<String, Map<Classification, Integer>>(),
+			Trainer.DefaultMapInitializer());
+
 	private final Map<Classification, Integer> documentClassificationCount = new HashMap<Classification, Integer>();
 
-	public Trainer train(Document document, Classification classification) {
+	public Trainer train(final Document document, final Classification classification) {
 		incrementDocumentCount(document, classification);
 
 		Set<String> uniqueFeatures = document.uniqueFeatures();
@@ -19,6 +21,16 @@ final class Trainer {
 		}
 
 		return this;
+	}
+
+	public static DefaultFunction<Map<Classification, Integer>> DefaultMapInitializer() {
+		return new DefaultFunction<Map<Classification, Integer>>() {
+
+			@Override
+			public Map<Classification, Integer> initialize() {
+				return new HashMap<Classification, Integer>();
+			}
+		};
 	}
 
 	private void incrementDocumentCount(Document document, Classification classification) {
@@ -34,17 +46,17 @@ final class Trainer {
 	private void incrementFeatureCount(String feature, Classification classification) {
 		Map<Classification, Integer> classificationFeatureMap = featureCount.get(feature);
 
-		if (classificationFeatureMap == null) {
-			HashMap<Classification, Integer> hashMap = new HashMap<Classification, Integer>();
-			hashMap.put(classification, 1);
-			featureCount.put(feature, hashMap);
-			return;
-		}
+//		if (classificationFeatureMap == null) {
+//			HashMap<Classification, Integer> hashMap = new HashMap<Classification, Integer>();
+//			hashMap.put(classification, 1);
+//			featureCount.put(feature, hashMap);
+//			return;
+//		}
 
 		Integer count = classificationFeatureMap.get(classification);
-		if(count == null)
+		if (count == null)
 			count = 0;
-		
+
 		classificationFeatureMap.put(classification, count + 1);
 	}
 
@@ -62,11 +74,11 @@ final class Trainer {
 	}
 
 	private float numberOfDocumentsTheFeatureOccurredIn(String feature, Classification classification) {
-		Map<Classification, Integer> numberOfDocumentsTheFeatureOccurredIn = featureCount.get(feature);
-		if (numberOfDocumentsTheFeatureOccurredIn == null)
+		Map<Classification, Integer> categoryFeatureCount = featureCount.get(feature);
+		if (categoryFeatureCount == null)
 			return 0;
 
-		return numberOfDocumentsTheFeatureOccurredIn.get(classification);
+		Integer numberOfDocumentsTheFeatureOccurredIn = categoryFeatureCount.get(classification);
+		return numberOfDocumentsTheFeatureOccurredIn == null ? 0 : numberOfDocumentsTheFeatureOccurredIn;
 	}
-
 }

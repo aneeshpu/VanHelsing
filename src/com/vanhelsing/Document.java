@@ -1,9 +1,9 @@
 package com.vanhelsing;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-class Document {
+public class Document {
 
 	private final String contents;
 
@@ -11,13 +11,13 @@ class Document {
 		this.contents = contents;
 	}
 
-	public List<String> features() {
+	public Set<String> uniqueFeatures() {
 		return toLower(contents.split("\\W"));
 	}
 
-	private List<String> toLower(String[] split) {
+	private Set<String> toLower(String[] split) {
 
-		List<String> features = new ArrayList<String>();
+		Set<String> features = new HashSet<String>();
 		for (String feature : split)
 			features.add(feature.toLowerCase());
 		

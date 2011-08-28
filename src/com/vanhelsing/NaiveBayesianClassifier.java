@@ -1,10 +1,8 @@
-package com.vanhelsing.brain;
+package com.vanhelsing;
 
-import org.w3c.dom.Document;
 
 import android.util.Log;
 
-import com.vanhelsing.Classification;
 
 public class NaiveBayesianClassifier {
 
@@ -16,12 +14,12 @@ public class NaiveBayesianClassifier {
 
 	}
 
-//	public Classification classify(Document document) {
-//
+	public Classification classify(Document document) {
+
 //		conditionalProbabilityOfDocumentBeingBad(document);
-//
-//		return null;
-//	}
+
+		return null;
+	}
 //
 //	private float conditionalProbabilityOfDocumentBeingBad(Document document) {
 //

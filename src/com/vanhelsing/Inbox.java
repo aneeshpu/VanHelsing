@@ -1,6 +1,5 @@
 package com.vanhelsing;
 
-import com.vanhelsing.brain.NaiveBayesianClassifier;
 
 import android.app.ListActivity;
 import android.database.Cursor;

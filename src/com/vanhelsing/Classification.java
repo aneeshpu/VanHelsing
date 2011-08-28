@@ -1,6 +1,6 @@
 package com.vanhelsing;
 
 public enum Classification {
-	BAD
+	BAD, GOOD
 
 }

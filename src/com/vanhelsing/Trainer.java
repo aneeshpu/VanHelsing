@@ -28,7 +28,17 @@ final class Trainer {
 
 			@Override
 			public Map<Classification, Integer> initialize() {
-				return new HashMap<Classification, Integer>();
+				return new DefaultMap<Classification, Integer>(new HashMap<Classification, Integer>(), integerInitialization());
+			}
+			
+			private DefaultFunction<Integer> integerInitialization(){
+				return new DefaultFunction<Integer>() {
+					
+					@Override
+					public Integer initialize() {
+						return new Integer(0);
+					}
+				};
 			}
 		};
 	}
@@ -45,13 +55,6 @@ final class Trainer {
 
 	private void incrementFeatureCount(String feature, Classification classification) {
 		Map<Classification, Integer> classificationFeatureMap = featureCount.get(feature);
-
-//		if (classificationFeatureMap == null) {
-//			HashMap<Classification, Integer> hashMap = new HashMap<Classification, Integer>();
-//			hashMap.put(classification, 1);
-//			featureCount.put(feature, hashMap);
-//			return;
-//		}
 
 		Integer count = classificationFeatureMap.get(classification);
 		if (count == null)
@@ -78,7 +81,6 @@ final class Trainer {
 		if (categoryFeatureCount == null)
 			return 0;
 
-		Integer numberOfDocumentsTheFeatureOccurredIn = categoryFeatureCount.get(classification);
-		return numberOfDocumentsTheFeatureOccurredIn == null ? 0 : numberOfDocumentsTheFeatureOccurredIn;
+		return categoryFeatureCount.get(classification);
 	}
 }

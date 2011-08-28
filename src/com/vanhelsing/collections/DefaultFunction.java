@@ -1,4 +1,4 @@
-package com.vanhelsing;
+package com.vanhelsing.collections;
 
 public interface DefaultFunction<T> {
 

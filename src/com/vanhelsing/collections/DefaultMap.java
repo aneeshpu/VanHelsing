@@ -1,8 +1,11 @@
-package com.vanhelsing;
+package com.vanhelsing.collections;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import com.vanhelsing.Classification;
 
 public class DefaultMap<K, V> implements Map<K, V> {
 
@@ -80,6 +83,26 @@ public class DefaultMap<K, V> implements Map<K, V> {
 	@Override
 	public Collection<V> values() {
 		return map.values();
+	}
+
+	public static DefaultFunction<Map<Classification, Integer>> DefaultMapInitializer() {
+		return new DefaultFunction<Map<Classification, Integer>>() {
+	
+			@Override
+			public Map<Classification, Integer> initialize() {
+				return new DefaultMap<Classification, Integer>(new HashMap<Classification, Integer>(), DefaultMap.integerInitialization());
+			}
+		};
+	}
+
+	public static DefaultFunction<Integer> integerInitialization() {
+		return new DefaultFunction<Integer>() {
+	
+			@Override
+			public Integer initialize() {
+				return new Integer(0);
+			}
+		};
 	}
 
 }

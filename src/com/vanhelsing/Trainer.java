@@ -29,7 +29,6 @@ final class Trainer {
 
 		Integer numberOfDocumentForClassification = documentClassificationCount.get(classification);
 		documentClassificationCount.put(classification, numberOfDocumentForClassification + 1);
-
 	}
 
 	private void incrementFeatureCount(String feature, Classification classification) {
@@ -48,5 +47,14 @@ final class Trainer {
 
 	private float numberOfDocumentsTheFeatureOccurredIn(String feature, Classification classification) {
 		return featureCount.get(feature).get(classification);
+	}
+
+	public float conditionalProbability(Document document, Classification classification) {
+		float conditionalProbabilityOfDocument = 1f;
+		for (String feature : document.uniqueFeatures())
+			conditionalProbabilityOfDocument *= conditionalProbability(feature, classification);
+		
+//		return conditionalProbabilityOfDocument;
+		return (float)Math.round(conditionalProbabilityOfDocument * 10000)/10000;
 	}
 }

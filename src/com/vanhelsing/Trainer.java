@@ -16,9 +16,9 @@ final class Trainer {
 	public Trainer train(final Document document, final Classification classification) {
 		incrementDocumentCount(document, classification);
 
-		Set<String> uniqueFeatures = document.uniqueFeatures();
+		Set<Feature> uniqueFeatures = document.uniqueFeatures();
 
-		for (String feature : uniqueFeatures) {
+		for (Feature feature : uniqueFeatures) {
 			incrementFeatureCount(feature, classification);
 		}
 
@@ -31,13 +31,13 @@ final class Trainer {
 		documentClassificationCount.put(classification, numberOfDocumentForClassification + 1);
 	}
 
-	private void incrementFeatureCount(String feature, Classification classification) {
+	private void incrementFeatureCount(Feature feature, Classification classification) {
 		Map<Classification, Integer> classificationFeatureMap = featureCount.get(feature);
 		Integer count = classificationFeatureMap.get(classification);
 		classificationFeatureMap.put(classification, count + 1);
 	}
 
-	public float conditionalProbability(String feature, Classification classification) {
+	public float conditionalProbability(Feature feature, Classification classification) {
 		return numberOfDocumentsTheFeatureOccurredIn(feature, classification) / numberOfDocumentsInTheCategory(classification);
 	}
 
@@ -45,16 +45,15 @@ final class Trainer {
 		return documentClassificationCount.get(classification);
 	}
 
-	private float numberOfDocumentsTheFeatureOccurredIn(String feature, Classification classification) {
+	private float numberOfDocumentsTheFeatureOccurredIn(Feature feature, Classification classification) {
 		return featureCount.get(feature).get(classification);
 	}
 
 	public float conditionalProbability(Document document, Classification classification) {
 		float conditionalProbabilityOfDocument = 1f;
-		for (String feature : document.uniqueFeatures())
+		for (Feature feature : document.uniqueFeatures())
 			conditionalProbabilityOfDocument *= conditionalProbability(feature, classification);
 		
-//		return conditionalProbabilityOfDocument;
 		return (float)Math.round(conditionalProbabilityOfDocument * 10000)/10000;
 	}
 }

@@ -1,53 +1,44 @@
 package com.vanhelsing;
 
-
 import android.util.Log;
 
+public class NaiveBayesianClassifier implements Classifier {
 
-public class NaiveBayesianClassifier {
+	private transient final TrainingData trainingData;
 
-	private static final float ASSUMED_PROBABILITY = 0.5f;
-	private static final float WEIGHT = 1;
+	public NaiveBayesianClassifier(final TrainingData trainingData) {
+		this.trainingData = trainingData;
+	}
 
-	public void markAsSpam(String message) {
+	public void markAsSpam(final String message) {
 		Log.i("vanhelsing", "vanhelsing marking " + message + " as spam");
 
 	}
 
-	public Classification classify(Document document) {
+	public Classification classify(final Document document) {
+		/**
+		 * Bayes Formula Pr( A | B ) Pr (B | A) * Pr (A) / Pr (B) Pr ( category
+		 * | document ) = Pr (document | category ) * Pr(category) / Pr
+		 * (document)
+		 */
 
-//		conditionalProbabilityOfDocumentBeingBad(document);
+		Probability probabilityOfBadForDocument = probabilityOfDocumentBeingInACategory(document, Classification.BAD);
+		Probability probabilityOfGoodForDocument = probabilityOfDocumentBeingInACategory(document, Classification.GOOD);
 
-		return null;
+		return probabilityOfBadForDocument.isGreaterThan(probabilityOfGoodForDocument) ? Classification.BAD : Classification.GOOD;
+
 	}
-//
-//	private float conditionalProbabilityOfDocumentBeingBad(Document document) {
-//
-//		String[] features = document.split("\\W");
-//
-//		float conditionalProbabilityOfDocumentBeingBad = 1;
-//
-//		for (String feature : features)
-//			conditionalProbabilityOfDocumentBeingBad *= weightedProbability(conditionalProbabilityOfFeatureBeingBad(feature), numberOfBadDocumentsThatTheFeatureAppearedIn(feature));
-//
-//		return conditionalProbabilityOfDocumentBeingBad;
-//	}
-//
-//	private float weightedProbability(float conditionalProbabilityOfFeatureBeingBad, int count) {
-//		return (WEIGHT * ASSUMED_PROBABILITY + count * conditionalProbabilityOfFeatureBeingBad) / WEIGHT + count;
-//	}
-//
-//	private float conditionalProbabilityOfFeatureBeingBad(String feature) {
-//		return numberOfBadDocumentsThatTheFeatureAppearedIn(feature) / totalNumberOfBadDocuments();
-//
-//	}
-//
-//	private int totalNumberOfBadDocuments() {
-//		return 0;
-//	}
-//
-//	private int numberOfBadDocumentsThatTheFeatureAppearedIn(String feature) {
-//		return 0;
-//	}
 
+	private Probability probabilityOfDocumentBeingInACategory(final Document document, final Classification classification) {
+		Probability probabilityOfDocumentBeingInACategory = document.conditionalProbability(classification).multiply(probabilityOfCategory(classification));
+		System.out.println(String.format("Pr(%s | %s)=%s", document, classification, probabilityOfDocumentBeingInACategory));
+		return probabilityOfDocumentBeingInACategory.round();
+
+	}
+
+	private Probability probabilityOfCategory(final Classification classification) {
+		float probabilityValue = trainingData.numberOfDocumentsInTheCategory(classification) / trainingData.totalNumberOfDocuments();
+		System.out.println(String.format("Pr(%s)=%f", classification, probabilityValue));
+		return new Probability(probabilityValue);
+	}
 }

@@ -52,4 +52,8 @@ public class Probability {
 	public String toString(){
 		return String.valueOf(probabilityValue);
 	}
+
+	public Boolean isGreaterThan(Probability other) {
+		return probabilityValue > other.probabilityValue;
+	}
 }

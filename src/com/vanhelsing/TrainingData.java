@@ -11,12 +11,13 @@ final class TrainingData {
 	private transient final DefaultMap<String, Map<Classification, Integer>> featureCount = new DefaultMap<String, Map<Classification, Integer>>(new HashMap<String, Map<Classification, Integer>>(),
 			DefaultMap.defaultMapInitializer());
 
-	private transient final Map<Classification, Integer> documentClassificationCount = new DefaultMap<Classification, Integer>(new HashMap<Classification, Integer>(), DefaultMap.integerInitialization());
+	private transient final Map<Classification, Integer> documentClassificationCount = new DefaultMap<Classification, Integer>(new HashMap<Classification, Integer>(),
+			DefaultMap.integerInitialization());
 
 	protected TrainingData train(final Document document, final Classification classification) {
 		incrementDocumentCount(document, classification);
 
-		final Set<Word> uniqueFeatures = document.uniqueFeatures();
+		final Set<Feature> uniqueFeatures = document.uniqueFeatures();
 
 		for (Feature feature : uniqueFeatures) {
 			incrementFeatureCount(feature, classification);
@@ -43,5 +44,22 @@ final class TrainingData {
 
 	float numberOfDocumentsTheFeatureOccurredIn(final Feature feature, final Classification classification) {
 		return featureCount.get(feature).get(classification);
+	}
+
+	public int numberOfDocumentsTheFeatureOccurredIn(Word feature) {
+
+		int totalCount = 0;
+		for (Classification classification : Classification.values()) {
+			totalCount += featureCount.get(feature).get(classification);
+		}
+		return totalCount;
+	}
+
+	public int totalNumberOfDocuments() {
+		int totalNumberOfDocuments = 0;
+		for (Classification classification : documentClassificationCount.keySet()){
+			totalNumberOfDocuments += documentClassificationCount.get(classification);
+		}
+		return totalNumberOfDocuments;
 	}
 }

@@ -15,17 +15,18 @@ public class Document {
 		this.trainer = trainer;
 	}
 
-	public Set<Word> uniqueFeatures() {
-		Set<String> uniqueFeatures = toLower(contents.split("\\W"));
+	public Set<Feature> uniqueFeatures() {
+		Set<String> uniqueFeatures = wordsLongerThanThreeCharactersInLowerCase(contents.split("\\W"));
 
 		return featureFactory.makeFeatures(uniqueFeatures, trainer);
 	}
 
-	private Set<String> toLower(final String[] split) {
+	private Set<String> wordsLongerThanThreeCharactersInLowerCase(final String[] split) {
 
 		Set<String> features = new HashSet<String>();
 		for (String feature : split)
-			features.add(feature.toLowerCase());
+			if (feature.length() > 2)
+				features.add(feature.toLowerCase());
 
 		return features;
 	}
@@ -61,6 +62,11 @@ public class Document {
 			conditionalProbabilityOfDocument = conditionalProbabilityOfDocument.multiply(feature.conditionalProbability(classification));
 
 		return conditionalProbabilityOfDocument;
+	}
+	
+	@Override
+	public String toString(){
+		return contents;
 	}
 
 }

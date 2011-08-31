@@ -60,7 +60,7 @@ public class Inbox extends ListActivity {
 		LinearLayout targetView = (LinearLayout) contextMenuInfo.targetView;
 		
 		TextView textView = (TextView) targetView.getChildAt(0);
-		new NaiveBayesianClassifier().markAsSpam((String)textView.getText());
+		ClassifierFactory.makeClassifier().markAsSpam((String)textView.getText());
 		return true;
 
 	}

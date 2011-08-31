@@ -16,7 +16,7 @@ final class TrainingData {
 	protected TrainingData train(final Document document, final Classification classification) {
 		incrementDocumentCount(document, classification);
 
-		final Set<Feature> uniqueFeatures = document.uniqueFeatures();
+		final Set<Word> uniqueFeatures = document.uniqueFeatures();
 
 		for (Feature feature : uniqueFeatures) {
 			incrementFeatureCount(feature, classification);

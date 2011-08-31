@@ -9,14 +9,13 @@ public class Document {
 	private transient final FeatureFactory featureFactory;
 	private transient final TrainingData trainer;
 
-
 	public Document(final String contents, final FeatureFactory featureFactory, final TrainingData trainer) {
 		this.contents = contents;
 		this.featureFactory = featureFactory;
 		this.trainer = trainer;
 	}
 
-	public Set<Feature> uniqueFeatures() {
+	public Set<Word> uniqueFeatures() {
 		Set<String> uniqueFeatures = toLower(contents.split("\\W"));
 
 		return featureFactory.makeFeatures(uniqueFeatures, trainer);
@@ -40,7 +39,7 @@ public class Document {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -56,12 +55,12 @@ public class Document {
 		return true;
 	}
 
-	public float conditionalProbability(Classification classification) {
-		float conditionalProbabilityOfDocument = 1f;
-		for (Feature feature : uniqueFeatures())
-			conditionalProbabilityOfDocument *= feature.conditionalProbability(classification);
-		
-		return (float)Math.round(conditionalProbabilityOfDocument * 10000)/10000;
+	public Probability conditionalProbability(final Classification classification) {
+		Probability conditionalProbabilityOfDocument = new Probability(1);
+		for (final Feature feature : uniqueFeatures())
+			conditionalProbabilityOfDocument = conditionalProbabilityOfDocument.multiply(feature.conditionalProbability(classification));
+
+		return conditionalProbabilityOfDocument;
 	}
 
 }

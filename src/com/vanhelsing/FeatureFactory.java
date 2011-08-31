@@ -5,10 +5,10 @@ import java.util.Set;
 
 public class FeatureFactory {
 
-	public Set<Feature> makeFeatures(final Set<String> features, final TrainingData trainer) {
-		final Set<Feature> featureSet = new HashSet<Feature>();
+	public Set<Word> makeFeatures(final Set<String> features, final TrainingData trainer) {
+		final Set<Word> featureSet = new HashSet<Word>();
 		for (String feature: features){
-			featureSet.add(new Feature(feature, trainer));
+			featureSet.add(new Word(feature, trainer));
 		}
 		
 		return featureSet;

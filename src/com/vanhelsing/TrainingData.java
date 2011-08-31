@@ -6,14 +6,14 @@ import java.util.Set;
 
 import com.vanhelsing.collections.DefaultMap;
 
-final class Trainer {
+final class TrainingData {
 
 	private final DefaultMap<String, Map<Classification, Integer>> featureCount = new DefaultMap<String, Map<Classification, Integer>>(new HashMap<String, Map<Classification, Integer>>(),
 			DefaultMap.DefaultMapInitializer());
 
 	private final Map<Classification, Integer> documentClassificationCount = new DefaultMap<Classification, Integer>(new HashMap<Classification, Integer>(), DefaultMap.integerInitialization());
 
-	public Trainer train(final Document document, final Classification classification) {
+	TrainingData train(final Document document, final Classification classification) {
 		incrementDocumentCount(document, classification);
 
 		Set<Feature> uniqueFeatures = document.uniqueFeatures();
@@ -37,23 +37,11 @@ final class Trainer {
 		classificationFeatureMap.put(classification, count + 1);
 	}
 
-	public float conditionalProbability(Feature feature, Classification classification) {
-		return numberOfDocumentsTheFeatureOccurredIn(feature, classification) / numberOfDocumentsInTheCategory(classification);
-	}
-
-	private float numberOfDocumentsInTheCategory(Classification classification) {
+	float numberOfDocumentsInTheCategory(Classification classification) {
 		return documentClassificationCount.get(classification);
 	}
 
-	private float numberOfDocumentsTheFeatureOccurredIn(Feature feature, Classification classification) {
+	float numberOfDocumentsTheFeatureOccurredIn(Feature feature, Classification classification) {
 		return featureCount.get(feature).get(classification);
-	}
-
-	public float conditionalProbability(Document document, Classification classification) {
-		float conditionalProbabilityOfDocument = 1f;
-		for (Feature feature : document.uniqueFeatures())
-			conditionalProbabilityOfDocument *= conditionalProbability(feature, classification);
-		
-		return (float)Math.round(conditionalProbabilityOfDocument * 10000)/10000;
 	}
 }

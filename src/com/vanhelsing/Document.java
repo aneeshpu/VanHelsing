@@ -7,17 +7,19 @@ public class Document {
 
 	private final String contents;
 	private FeatureFactory featureFactory;
+	private final TrainingData trainer;
 
 
-	public Document(String contents, FeatureFactory featureFactory) {
+	public Document(String contents, FeatureFactory featureFactory, TrainingData trainer) {
 		this.contents = contents;
 		this.featureFactory = featureFactory;
+		this.trainer = trainer;
 	}
 
 	public Set<Feature> uniqueFeatures() {
 		Set<String> uniqueFeatures = toLower(contents.split("\\W"));
 
-		return featureFactory.makeFeatures(uniqueFeatures);
+		return featureFactory.makeFeatures(uniqueFeatures, trainer);
 	}
 
 	private Set<String> toLower(String[] split) {
@@ -52,6 +54,14 @@ public class Document {
 		} else if (!contents.equals(other.contents))
 			return false;
 		return true;
+	}
+
+	public float conditionalProbability(Classification classification) {
+		float conditionalProbabilityOfDocument = 1f;
+		for (Feature feature : uniqueFeatures())
+			conditionalProbabilityOfDocument *= feature.conditionalProbability(classification);
+		
+		return (float)Math.round(conditionalProbabilityOfDocument * 10000)/10000;
 	}
 
 }

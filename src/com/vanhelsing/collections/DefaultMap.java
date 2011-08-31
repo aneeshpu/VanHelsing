@@ -85,7 +85,7 @@ public class DefaultMap<K, V> implements Map<K, V> {
 		return map.values();
 	}
 
-	public static DefaultFunction<Map<Classification, Integer>> DefaultMapInitializer() {
+	public static DefaultFunction<Map<Classification, Integer>> defaultMapInitializer() {
 		return new DefaultFunction<Map<Classification, Integer>>() {
 	
 			@Override
@@ -100,7 +100,7 @@ public class DefaultMap<K, V> implements Map<K, V> {
 	
 			@Override
 			public Integer initialize() {
-				return new Integer(0);
+				return Integer.valueOf(0);
 			}
 		};
 	}

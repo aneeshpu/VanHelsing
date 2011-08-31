@@ -5,12 +5,12 @@ import java.util.Set;
 
 public class Document {
 
-	private final String contents;
-	private FeatureFactory featureFactory;
-	private final TrainingData trainer;
+	private transient final String contents;
+	private transient final FeatureFactory featureFactory;
+	private transient final TrainingData trainer;
 
 
-	public Document(String contents, FeatureFactory featureFactory, TrainingData trainer) {
+	public Document(final String contents, final FeatureFactory featureFactory, final TrainingData trainer) {
 		this.contents = contents;
 		this.featureFactory = featureFactory;
 		this.trainer = trainer;
@@ -22,7 +22,7 @@ public class Document {
 		return featureFactory.makeFeatures(uniqueFeatures, trainer);
 	}
 
-	private Set<String> toLower(String[] split) {
+	private Set<String> toLower(final String[] split) {
 
 		Set<String> features = new HashSet<String>();
 		for (String feature : split)

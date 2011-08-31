@@ -2,10 +2,10 @@ package com.vanhelsing;
 
 class Feature {
 
-	private final String feature;
-	private final TrainingData trainer;
+	private transient final String feature;
+	private transient final TrainingData trainer;
 
-	public Feature(String feature, TrainingData trainer) {
+	public Feature(final String feature, final TrainingData trainer) {
 		this.feature = feature;
 		this.trainer = trainer;
 	}

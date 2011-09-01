@@ -11,8 +11,9 @@ public class NaiveBayesianClassifier implements Classifier {
 		this.trainingData = trainingData;
 	}
 
-	public void markAsSpam(final Document message) {
-		Log.i("vanhelsing", "vanhelsing marking " + message + " as spam");
+	public void markAsSpam(final Document document) {
+		Log.i("vanhelsing", "vanhelsing marking " + document + " as spam");
+		this.trainingData.train(document, Classification.BAD);
 	}
 
 	public Classification classify(final Document document) {

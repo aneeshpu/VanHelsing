@@ -2,6 +2,6 @@ package com.vanhelsing;
 
 public interface Classifier {
 
-	void markAsSpam(String text);
+	void markAsSpam(Document makeDocument);
 
 }

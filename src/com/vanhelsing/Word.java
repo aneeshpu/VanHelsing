@@ -39,7 +39,9 @@ class Word implements Feature{
 
 	public Probability conditionalProbability(Classification classification) {
 		Probability probability = new Probability(trainedData.numberOfDocumentsTheFeatureOccurredIn(this, classification)/trainedData.numberOfDocumentsInTheCategory(classification));
+		
 		Probability weightedProbability = weightedProbability(probability, classification);
+		
 		System.out.println(String.format("The weighted probability of the feature '%s' in category %s is %s", this, classification, weightedProbability));
 		return weightedProbability;
 		

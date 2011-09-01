@@ -53,7 +53,7 @@ public class Probability {
 		return String.valueOf(probabilityValue);
 	}
 
-	public Boolean isGreaterThan(Probability other) {
-		return probabilityValue > other.probabilityValue;
+	public Boolean isGreaterThan(Probability other, int factor) {
+		return probabilityValue > other.probabilityValue * 1;
 	}
 }

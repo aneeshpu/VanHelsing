@@ -19,7 +19,7 @@ public class SpamSqliteHelper extends SQLiteOpenHelper {
 	}
 
 	private String createFeatureTable() {
-		return String.format("create table %s (_id INTEGER primary key autoincrement," + "%s TEXT)", SpamContentProvider.DB_TABLE_NAME, SpamContentProvider.DB_COL_NAME);
+		return String.format("create table %s (_id INTEGER primary key autoincrement," + "%s TEXT)", SpamContentProvider.FeatureTable.DB_TABLE_NAME, SpamContentProvider.FeatureTable.DB_COL_NAME);
 	}
 
 	@Override

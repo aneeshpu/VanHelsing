@@ -38,11 +38,11 @@ final class TrainingData {
 		classificationFeatureMap.put(classification, count + 1);
 	}
 
-	float numberOfDocumentsInTheCategory(final Classification classification) {
+	protected float numberOfDocumentsInTheCategory(final Classification classification) {
 		return documentClassificationCount.get(classification);
 	}
 
-	float numberOfDocumentsTheFeatureOccurredIn(final Feature feature, final Classification classification) {
+	protected float numberOfDocumentsTheFeatureOccurredIn(final Feature feature, final Classification classification) {
 		return featureCount.get(feature).get(classification);
 	}
 

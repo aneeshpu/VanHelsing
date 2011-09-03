@@ -1,7 +1,7 @@
 package com.vanhelsing;
 
-
 import android.app.ListActivity;
+import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +32,8 @@ public class Inbox extends ListActivity {
 
 		ListView listView = getListView();
 		listView.setTextFilterEnabled(true);
+		
+		ContentResolver contentResolver = getContentResolver();
 
 		registerForContextMenu(listView);
 
@@ -46,7 +48,7 @@ public class Inbox extends ListActivity {
 
 		TextView textView = (TextView) linearLayout.getChildAt(0);
 
-		Log.i("aneesh", "aneesh long pressed message: " + (textView.getText()));
+		Log.i("vanhelsing", "vanhelsing long pressed message: " + (textView.getText()));
 
 		menu.setHeaderTitle("Spam picker");
 		MenuInflater menuInflater = getMenuInflater();
@@ -56,12 +58,11 @@ public class Inbox extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo contextMenuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
-		
-		LinearLayout targetView = (LinearLayout) contextMenuInfo.targetView;
-		
-		TextView textView = (TextView) targetView.getChildAt(0);
-		ClassifierFactory.makeClassifier().markAsSpam(new DocumentFactory().makeDocument((String)textView.getText(), TrainerFactory.trainingData()));
-		return true;
 
+		LinearLayout targetView = (LinearLayout) contextMenuInfo.targetView;
+
+		TextView textView = (TextView) targetView.getChildAt(0);
+		ClassifierFactory.makeClassifier().markAsSpam(new DocumentFactory().makeDocument((String) textView.getText(), TrainerFactory.trainingData()));
+		return true;
 	}
 }

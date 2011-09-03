@@ -13,8 +13,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <provider android:name="com.vanhelsing.contentProvider.SpamContentProvider" android:authorities="com.vanhelsing.contentProvider"></provider>
 
     </application>
+    
     
     <uses-permission android:name="android.permission.READ_SMS"/>
 </manifest>

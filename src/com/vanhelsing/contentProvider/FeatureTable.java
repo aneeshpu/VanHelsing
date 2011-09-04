@@ -59,4 +59,9 @@ public final class FeatureTable implements Table {
 		return spamSqliteHelper.getWritableDatabase().query(FeatureTable.DB_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 	}
 
+	@Override
+	public int update(ContentValues values, String selection, Context context) {
+		return 0;
+	}
+
 }

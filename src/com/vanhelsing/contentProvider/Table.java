@@ -10,4 +10,6 @@ public interface Table {
 
 	public abstract long insert(ContentValues values, Context context);
 
+	public abstract int update(ContentValues values, String selection, Context context);
+
 }

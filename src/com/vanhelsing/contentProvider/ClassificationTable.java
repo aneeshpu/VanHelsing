@@ -54,4 +54,9 @@ public final class ClassificationTable implements Table {
 			spamSqliteHelper = new ClassificationTableSqliteHelper(context);
 		return spamSqliteHelper;
 	}
+
+	@Override
+	public int update(ContentValues values, String selection, Context context) {
+		return sqliteHelper(context).getWritableDatabase().update(DB_TABLE_NAME, values, selection, null);
+	}
 }

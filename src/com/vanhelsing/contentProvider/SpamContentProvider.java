@@ -59,8 +59,7 @@ public class SpamContentProvider extends ContentProvider {
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
+		return tableMap.get(uri).update(values, selection, getContext());
 	}
 
 }

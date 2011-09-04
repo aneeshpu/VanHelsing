@@ -58,4 +58,10 @@ public class ClassificationFeatureCountTable implements Table {
 		return sqliteHelper;
 	}
 
+	@Override
+	public int update(ContentValues values, String selection, Context context) {
+
+		return 0;
+	}
+
 }

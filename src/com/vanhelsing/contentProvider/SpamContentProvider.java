@@ -10,14 +10,19 @@ import android.util.Log;
 
 public class SpamContentProvider extends ContentProvider {
 
-	static final String AUTHORITY = "com.vanhelsing.contentProvider";
+	private static final Uri CLASSIFICATION_URI = ClassificationTable.URI;
+	public static final Uri CLASSIFICATION_FEATURE_COUNT_URI = Uri.parse(ClassificationFeatureCountTable.URI);
+
+	public static final String AUTHORITY = "com.vanhelsing.contentProvider";
+
 
 	private final HashMap<Uri, Table> tableMap;
 
 	public SpamContentProvider() {
 		tableMap = new HashMap<Uri, Table>();
 		tableMap.put(FeatureTable.URI, new FeatureTable());
-		tableMap.put(ClassificationTable.URI, new ClassificationTable());
+		tableMap.put(CLASSIFICATION_URI, new ClassificationTable());
+		tableMap.put(CLASSIFICATION_FEATURE_COUNT_URI, new ClassificationFeatureCountTable());
 	}
 
 	@Override

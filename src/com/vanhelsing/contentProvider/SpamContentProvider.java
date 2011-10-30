@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class SpamContentProvider extends ContentProvider {
 
-	private static final Uri CLASSIFICATION_URI = ClassificationTable.URI;
+	public static final Uri CLASSIFICATION_URI = ClassificationTable.URI;
 	public static final Uri CLASSIFICATION_FEATURE_COUNT_URI = Uri.parse(ClassificationFeatureCountTable.URI);
 
 	public static final String AUTHORITY = "com.vanhelsing.contentProvider";

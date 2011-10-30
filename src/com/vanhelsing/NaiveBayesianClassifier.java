@@ -11,22 +11,28 @@ public class NaiveBayesianClassifier implements Classifier {
 		this.trainingData = trainingData;
 	}
 
-	public void markAsSpam(final Document document) {
+	public TrainingData markAsSpam(final Document document) {
 		Log.i("vanhelsing", "vanhelsing marking " + document + " as spam");
-		this.trainingData.train(document, Classification.BAD);
+		this.trainingData.train(document, badClassification());
+		return trainingData;
+	}
+
+	private Classification badClassification() {
+//		return new ClassificationDao(null).getBad();
+		return Classification.BAD;
 	}
 
 	public Classification classify(final Document document) {
 		/**
-		 * Bayes Formula Pr( A | B ) Pr (B | A) * Pr (A) / Pr (B) Pr ( category
+		 * Bayes Formula Pr( A | B ) = Pr (B | A) * Pr (A) / Pr (B) Pr ( category
 		 * | document ) = Pr (document | category ) * Pr(category) / Pr
 		 * (document)
 		 */
 
-		Probability probabilityOfBadForDocument = probabilityOfDocumentBeingInACategory(document, Classification.BAD);
+		Probability probabilityOfBadForDocument = probabilityOfDocumentBeingInACategory(document, badClassification());
 		Probability probabilityOfGoodForDocument = probabilityOfDocumentBeingInACategory(document, Classification.GOOD);
 
-		return isBad(probabilityOfBadForDocument, probabilityOfGoodForDocument) ? Classification.BAD : Classification.GOOD;
+		return isBad(probabilityOfBadForDocument, probabilityOfGoodForDocument) ? badClassification() : Classification.GOOD;
 
 	}
 
@@ -36,6 +42,7 @@ public class NaiveBayesianClassifier implements Classifier {
 
 	private Probability probabilityOfDocumentBeingInACategory(final Document document, final Classification classification) {
 		Probability probabilityOfDocumentBeingInACategory = document.conditionalProbability(classification).multiply(probabilityOfCategory(classification));
+		
 		Log.i("vanhelsing", String.format("Pr(%s | %s)=%s", classification, document, probabilityOfDocumentBeingInACategory));
 		return probabilityOfDocumentBeingInACategory.round();
 

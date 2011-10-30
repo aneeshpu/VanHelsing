@@ -1,7 +1,10 @@
 package com.vanhelsing;
 
+import com.vanhelsing.contentProvider.TrainingDataDao;
+
 import android.app.ListActivity;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -62,7 +65,15 @@ public class Inbox extends ListActivity {
 		LinearLayout targetView = (LinearLayout) contextMenuInfo.targetView;
 
 		TextView textView = (TextView) targetView.getChildAt(0);
-		ClassifierFactory.makeClassifier().markAsSpam(new DocumentFactory().makeDocument((String) textView.getText(), TrainerFactory.trainingData()));
+		final TrainingData trainingData = ClassifierFactory.makeClassifier(this).markAsSpam(new DocumentFactory().makeDocument((String) textView.getText(), TrainerFactory.trainingData(this)));
+		
+		new TrainingDataDao(this).saveOrUpdate(trainingData);
+		final ContentValues contentValues = makeContentValues(trainingData);
 		return true;
+	}
+
+	private ContentValues makeContentValues(TrainingData trainingData) {
+		final ContentValues contentValues = new ContentValues();
+		return contentValues;
 	}
 }

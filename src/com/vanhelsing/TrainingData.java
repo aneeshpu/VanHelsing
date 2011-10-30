@@ -5,8 +5,18 @@ import java.util.Map;
 import java.util.Set;
 
 import com.vanhelsing.collections.DefaultMap;
+import com.vanhelsing.contentProvider.FeatureDao;
+import com.vanhelsing.contentProvider.IClassificationDao;
 
-final class TrainingData {
+/**
+ * The existence of this class is an abomination. 
+ * I was too influenced by the code in Collective Intelligence to see where I was going. 
+ * 
+ * I need to get this working before I can refactor and remove this class and evolve a good domain model. I will do it soon. But till then this class has to live on
+ * @author aneeshpu
+ *
+ */
+public final class TrainingData {
 
 	private transient final DefaultMap<String, Map<Classification, Integer>> featureCount = new DefaultMap<String, Map<Classification, Integer>>(new HashMap<String, Map<Classification, Integer>>(),
 			DefaultMap.defaultMapInitializer());
@@ -14,8 +24,17 @@ final class TrainingData {
 	private transient final Map<Classification, Integer> documentClassificationCount = new DefaultMap<Classification, Integer>(new HashMap<Classification, Integer>(),
 			DefaultMap.integerInitialization());
 
+	private final FeatureDao featureDao;
+
+	private final IClassificationDao classificationDao;
+
+	public TrainingData(FeatureDao featureDao, IClassificationDao classificationDao) {
+		this.featureDao = featureDao;
+		this.classificationDao = classificationDao;
+	}
+
 	protected TrainingData train(final Document document, final Classification classification) {
-		incrementDocumentCount(document, classification);
+		incrementDocumentCount(classification);
 
 		final Set<Feature> uniqueFeatures = document.uniqueFeatures();
 
@@ -26,16 +45,23 @@ final class TrainingData {
 		return this;
 	}
 
-	private void incrementDocumentCount(final Document document, final Classification classification) {
+	private void incrementDocumentCount(final Classification classification) {
 
 		Integer numberOfDocumentForClassification = documentClassificationCount.get(classification);
 		documentClassificationCount.put(classification, numberOfDocumentForClassification + 1);
+		
+		//persist the document classification count
+		getClassificationDao().persist(classification, numberOfDocumentForClassification);
+	}
+
+	private IClassificationDao getClassificationDao() {
+		return classificationDao;
 	}
 
 	private void incrementFeatureCount(final Feature feature, final Classification classification) {
-		Map<Classification, Integer> classificationFeatureMap = featureCount.get(feature);
-		Integer count = classificationFeatureMap.get(classification);
-		classificationFeatureMap.put(classification, count + 1);
+		Map<Classification, Integer> classificationCountMap = featureCount.get(feature);
+		Integer count = classificationCountMap.get(classification);
+		classificationCountMap.put(classification, count + 1);
 	}
 
 	protected float numberOfDocumentsInTheCategory(final Classification classification) {

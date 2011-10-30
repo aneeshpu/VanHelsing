@@ -1,5 +1,7 @@
 package com.vanhelsing;
 
+import android.util.Log;
+
 class Word implements Feature{
 
 	private static final float ASSUMED_PROBABILITY = 0.5f;
@@ -28,7 +30,7 @@ class Word implements Feature{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Word other = (Word) obj;
+		final Word other = (Word) obj;
 		if (feature == null) {
 			if (other.feature != null)
 				return false;
@@ -37,23 +39,23 @@ class Word implements Feature{
 		return true;
 	}
 
-	public Probability conditionalProbability(Classification classification) {
-		Probability probability = new Probability(trainedData.numberOfDocumentsTheFeatureOccurredIn(this, classification)/trainedData.numberOfDocumentsInTheCategory(classification));
+	public Probability conditionalProbability(final Classification classification) {
+		final Probability probability = new Probability(trainedData.numberOfDocumentsTheFeatureOccurredIn(this, classification)/trainedData.numberOfDocumentsInTheCategory(classification));
 		
-		Probability weightedProbability = weightedProbability(probability, classification);
+		final Probability weightedProbability = weightedProbability(probability, classification);
 		
-		System.out.println(String.format("The weighted probability of the feature '%s' in category %s is %s", this, classification, weightedProbability));
+		Log.d("vanhelsing", String.format("The weighted probability of the feature '%s' in category %s is %s", this, classification, weightedProbability));
 		return weightedProbability;
 		
 	}
 
-	private Probability weightedProbability(Probability probability, Classification classification) {
-		float numberOfOccurrencesInTheTrainingSet = numberOfOccurrencesInTheTrainingSet(classification);
+	private Probability weightedProbability(final Probability probability, final Classification classification) {
+		final float numberOfOccurrencesInTheTrainingSet = numberOfOccurrencesInTheTrainingSet(classification);
 		return new Probability((float)(ASSUMED_PROBABILITY * WEIGHT + probability.weightedProbability(numberOfOccurrencesInTheTrainingSet)) / (WEIGHT + numberOfOccurrencesInTheTrainingSet));
 	}
 
 	@Override
-	public float numberOfOccurrencesInTheTrainingSet(Classification classification) {
+	public float numberOfOccurrencesInTheTrainingSet(final Classification classification) {
 		return trainedData.numberOfDocumentsTheFeatureOccurredIn(this);
 	}
 	

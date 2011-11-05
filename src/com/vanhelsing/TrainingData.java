@@ -5,8 +5,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.vanhelsing.collections.DefaultMap;
+import com.vanhelsing.contentProvider.Category;
 import com.vanhelsing.contentProvider.FeatureDao;
 import com.vanhelsing.contentProvider.IClassificationDao;
+import com.vanhelsing.contentProvider.IFeatureDao;
 
 /**
  * The existence of this class is an abomination. 
@@ -50,7 +52,7 @@ public final class TrainingData {
 		Integer numberOfDocumentForClassification = documentClassificationCount.get(classification);
 		documentClassificationCount.put(classification, numberOfDocumentForClassification + 1);
 		
-		//persist the document classification count
+		final Category category = getClassificationDao().get(classification);
 		getClassificationDao().persist(classification, numberOfDocumentForClassification);
 	}
 
@@ -60,8 +62,17 @@ public final class TrainingData {
 
 	private void incrementFeatureCount(final Feature feature, final Classification classification) {
 		Map<Classification, Integer> classificationCountMap = featureCount.get(feature);
+		
+		getFeatureDao().persist(feature);
+		
 		Integer count = classificationCountMap.get(classification);
 		classificationCountMap.put(classification, count + 1);
+		
+		
+	}
+
+	private IFeatureDao getFeatureDao() {
+		return featureDao;
 	}
 
 	protected float numberOfDocumentsInTheCategory(final Classification classification) {

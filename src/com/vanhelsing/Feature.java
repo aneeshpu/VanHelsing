@@ -1,6 +1,6 @@
 package com.vanhelsing;
 
-interface Feature {
+public interface Feature {
 
 	Probability conditionalProbability(Classification classification);
 	

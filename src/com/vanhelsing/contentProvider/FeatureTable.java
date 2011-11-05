@@ -39,29 +39,33 @@ public final class FeatureTable implements Table {
 
 	}
 
-	private FeatureTableSqliteHelper spamSqliteHelper;
+	private FeatureTableSqliteHelper sqliteHelper;
 
 	@Override
 	public long insert(ContentValues values, Context context) {
-		// TODO: How do I get rid of this ugly check.
-		if (spamSqliteHelper == null)
-			spamSqliteHelper = new FeatureTableSqliteHelper(context);
-		long insertedId = spamSqliteHelper.getWritableDatabase().insert(FeatureTable.DB_TABLE_NAME, null, values);
+		long insertedId = sqliteHelper(context).getWritableDatabase().insert(FeatureTable.DB_TABLE_NAME, null, values);
 		return insertedId;
 	}
 
 	@Override
 	public Cursor query(String[] projection, String selection, String[] selectionArgs, String sortOrder, Context context) {
-		// TODO: How do I get rid of this ugly check.
-		if (spamSqliteHelper == null)
-			spamSqliteHelper = new FeatureTableSqliteHelper(context);
+		return sqliteHelper(context).getWritableDatabase().query(FeatureTable.DB_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+	}
 
-		return spamSqliteHelper.getWritableDatabase().query(FeatureTable.DB_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+	private SQLiteOpenHelper sqliteHelper(Context context) {
+		if (sqliteHelper == null)
+			sqliteHelper = new FeatureTableSqliteHelper(context);
+		return sqliteHelper;
 	}
 
 	@Override
 	public int update(ContentValues values, String selection, Context context) {
 		return 0;
+	}
+
+	@Override
+	public int delete(String whereClause, Context context) {
+		return sqliteHelper(context).getWritableDatabase().delete(DB_TABLE_NAME, whereClause, null);
 	}
 
 }

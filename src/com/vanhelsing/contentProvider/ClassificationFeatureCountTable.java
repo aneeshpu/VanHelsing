@@ -60,8 +60,12 @@ public class ClassificationFeatureCountTable implements Table {
 
 	@Override
 	public int update(ContentValues values, String selection, Context context) {
-
 		return 0;
+	}
+
+	@Override
+	public int delete(String whereClause, Context context) {
+		return sqliteHelper(context).getWritableDatabase().delete(DB_TABLE_NAME, whereClause, null);
 	}
 
 }

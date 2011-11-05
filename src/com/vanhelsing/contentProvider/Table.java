@@ -12,4 +12,6 @@ public interface Table {
 
 	public abstract int update(ContentValues values, String selection, Context context);
 
+	public abstract int delete(String selection, Context context);
+
 }

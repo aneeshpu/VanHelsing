@@ -8,4 +8,8 @@ public interface IClassificationDao {
 
 	public abstract Category getBad();
 
+	public abstract Category get(Classification classification);
+
+	public abstract int delete(Category bad);
+
 }

@@ -11,7 +11,8 @@ public class TrainerFactory {
 
 	public static TrainingData trainingData(Context context) {
 		if (trainer == null){
-			trainer = new TrainingData(new FeatureDao(), new ClassificationDao(context));
+			//TODO: Fix this
+			trainer = new TrainingData(null, new ClassificationDao(context));
 		}
 		return trainer;
 	}

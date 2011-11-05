@@ -59,4 +59,9 @@ public final class ClassificationTable implements Table {
 	public int update(ContentValues values, String selection, Context context) {
 		return sqliteHelper(context).getWritableDatabase().update(DB_TABLE_NAME, values, selection, null);
 	}
+
+	@Override
+	public int delete(String selection, Context context) {
+		return sqliteHelper(context).getWritableDatabase().delete(DB_TABLE_NAME, selection, null);
+	}
 }

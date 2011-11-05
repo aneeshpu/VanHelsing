@@ -11,10 +11,11 @@ import android.util.Log;
 public class SpamContentProvider extends ContentProvider {
 
 	public static final Uri CLASSIFICATION_URI = ClassificationTable.URI;
-	public static final Uri CLASSIFICATION_FEATURE_COUNT_URI = Uri.parse(ClassificationFeatureCountTable.URI);
+	public static final Uri FEATURE_URI = FeatureTable.URI;
+	public static final Uri CLASSIFICATION_FEATURE_COUNT_URI = Uri
+			.parse(ClassificationFeatureCountTable.URI);
 
 	public static final String AUTHORITY = "com.vanhelsing.contentProvider";
-
 
 	private final HashMap<Uri, Table> tableMap;
 
@@ -27,8 +28,9 @@ public class SpamContentProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
+		Log.d("vanhelsing", String.format("running delete with selection:%s and selectionArgs: %s",
+				selection, selectionArgs));
+		return tableMap.get(uri).delete(selection, getContext());
 	}
 
 	@Override
@@ -39,7 +41,7 @@ public class SpamContentProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		Log.i("vanhelsing", "Inside SpamContentProvider.insert()");
+		Log.d("vanhelsing", "Inside SpamContentProvider.insert()");
 		long insertedId = tableMap.get(uri).insert(values, getContext());
 
 		return Uri.withAppendedPath(uri, String.valueOf(insertedId));
@@ -47,14 +49,15 @@ public class SpamContentProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		Log.i("vanhelsing", "Inside SpamContentProvider.query()");
-		return tableMap.get(uri).query(projection, selection, selectionArgs, sortOrder, getContext());
+	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+			String sortOrder) {
+		Log.d("vanhelsing", "Inside SpamContentProvider.query()");
+		return tableMap.get(uri).query(projection, selection, selectionArgs, sortOrder,
+				getContext());
 	}
 
 	@Override

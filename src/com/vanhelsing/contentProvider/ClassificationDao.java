@@ -16,12 +16,7 @@ public class ClassificationDao implements IClassificationDao {
 
 	@Override
 	public Category getBad() {
-		final Cursor cursor = context.getContentResolver().query(SpamContentProvider.CLASSIFICATION_URI, new String[] { ClassificationTable.DB_COL_NAME, ClassificationTable.DB_COL_DOCUMENT_COUNT },
-				String.format("%s = '%s'", ClassificationTable.DB_COL_NAME, Classification.BAD.toString()), null, null);
-
-		cursor.moveToFirst();
-		return new Category(Classification.BAD, cursor.getInt(cursor.getColumnIndex(ClassificationTable.DB_COL_DOCUMENT_COUNT)));
-		
+		return get(Classification.BAD);		
 	}
 
 	@Override
@@ -34,6 +29,22 @@ public class ClassificationDao implements IClassificationDao {
 		context.getContentResolver().insert(SpamContentProvider.CLASSIFICATION_URI, contentValues);
 
 		return true;
+	}
+
+	@Override
+	public Category get(Classification classification) {
+		final Cursor cursor = context.getContentResolver().query(SpamContentProvider.CLASSIFICATION_URI, new String[] { ClassificationTable.DB_COL_NAME, ClassificationTable.DB_COL_DOCUMENT_COUNT },
+				String.format("%s = '%s'", ClassificationTable.DB_COL_NAME, Classification.BAD.toString()), null, null);
+
+		cursor.moveToFirst();
+		return new Category(Classification.BAD, cursor.getInt(cursor.getColumnIndex(ClassificationTable.DB_COL_DOCUMENT_COUNT)));
+
+	}
+
+	@Override
+	public int delete(Category category) {
+		final int deletedRows = context.getContentResolver().delete(SpamContentProvider.CLASSIFICATION_URI, String.format("%s = '%s'", ClassificationTable.DB_COL_NAME, category), null);
+		return deletedRows;
 	}
 
 }

@@ -53,7 +53,9 @@ public final class TrainingData {
 		documentClassificationCount.put(classification, numberOfDocumentForClassification + 1);
 		
 		final Category category = getClassificationDao().get(classification);
+		category.incrementDocumentCount();
 		getClassificationDao().persist(classification, numberOfDocumentForClassification);
+		getClassificationDao().persist(category);
 	}
 
 	private IClassificationDao getClassificationDao() {

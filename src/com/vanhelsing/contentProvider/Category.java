@@ -4,7 +4,7 @@ import com.vanhelsing.Classification;
 
 public class Category {
 
-	private final int documentCount;
+	private int documentCount;
 	private final Classification classification;
 
 	public Category(final Classification classification, final int documentCount) {
@@ -21,4 +21,11 @@ public class Category {
 		return documentCount;
 	}
 
+	public int incrementDocumentCount() {
+		return documentCount++;
+	}
+
+	public Classification classification() {
+		return classification;
+	}
 }

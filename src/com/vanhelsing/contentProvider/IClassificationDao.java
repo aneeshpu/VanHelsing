@@ -12,4 +12,6 @@ public interface IClassificationDao {
 
 	public abstract int delete(Category bad);
 
+	public abstract Category persist(Category category);
+
 }

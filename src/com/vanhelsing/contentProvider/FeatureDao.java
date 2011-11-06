@@ -13,10 +13,10 @@ public class FeatureDao implements IFeatureDao {
 	private final Context context;
 	private final TrainingData trainingData;
 
-	public FeatureDao(Context context, TrainingData trainingData) {
+	public FeatureDao(TrainingData trainingData, Context context) {
 		this.context = context;
 		this.trainingData = trainingData;
-		
+
 	}
 
 	@Override
@@ -32,16 +32,15 @@ public class FeatureDao implements IFeatureDao {
 	}
 
 	@Override
-	public Feature get(String featureName) {
-		final Cursor cursor = context.getContentResolver().query(SpamContentProvider.FEATURE_URI, new String[]{FeatureTable.DB_COL_NAME}, null, null, String.format("%s %s", FeatureTable.DB_COL_NAME, "ASC"));
+	public Feature get(Feature feature) {
+		final Cursor cursor = context.getContentResolver().query(SpamContentProvider.FEATURE_URI, new String[] { FeatureTable.DB_COL_NAME }, null, null, String.format("%s %s", FeatureTable.DB_COL_NAME, "ASC"));
 		cursor.moveToFirst();
 		final String resultFeatureName = cursor.getString(cursor.getColumnIndex(FeatureTable.DB_COL_NAME));
-		
+
 		cursor.close();
-		
-		if(resultFeatureName == null)
+
+		if (resultFeatureName == null)
 			return null;
 		return new Word(resultFeatureName, trainingData);
 	}
-
 }

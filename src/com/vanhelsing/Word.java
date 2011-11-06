@@ -67,4 +67,9 @@ public class Word implements Feature {
 		return feature;
 	}
 
+	@Override
+	public String featureName() {
+		return feature;
+	}
+
 }

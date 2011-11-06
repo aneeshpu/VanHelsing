@@ -19,8 +19,8 @@ public class ClassificationDao implements IClassificationDao {
 		return get(Classification.BAD);
 	}
 
-	@Override
-	public boolean persist(Classification classification, Integer numberOfDocumentForClassification) {
+//	@Override
+	private boolean persist(Classification classification, Integer numberOfDocumentForClassification) {
 		final ContentValues contentValues = new ContentValues();
 
 		contentValues.put(ClassificationTable.DB_COL_NAME, classification.toString());

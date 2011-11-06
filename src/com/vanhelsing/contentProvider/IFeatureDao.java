@@ -7,6 +7,6 @@ public interface IFeatureDao {
 
 	boolean persist(Feature feature);
 
-	Feature get(String feature);
+	Feature get(Feature feature);
 
 }

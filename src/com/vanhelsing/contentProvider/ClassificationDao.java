@@ -37,7 +37,9 @@ public class ClassificationDao implements IClassificationDao {
 				String.format("%s = '%s'", ClassificationTable.DB_COL_NAME, Classification.BAD.toString()), null, null);
 
 		cursor.moveToFirst();
-		return new Category(Classification.BAD, cursor.getInt(cursor.getColumnIndex(ClassificationTable.DB_COL_DOCUMENT_COUNT)));
+		final Category category = new Category(Classification.BAD, cursor.getInt(cursor.getColumnIndex(ClassificationTable.DB_COL_DOCUMENT_COUNT)));
+		cursor.close();
+		return category;
 
 	}
 

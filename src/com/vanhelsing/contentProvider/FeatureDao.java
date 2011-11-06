@@ -36,6 +36,9 @@ public class FeatureDao implements IFeatureDao {
 		final Cursor cursor = context.getContentResolver().query(SpamContentProvider.FEATURE_URI, new String[]{FeatureTable.DB_COL_NAME}, null, null, String.format("%s %s", FeatureTable.DB_COL_NAME, "ASC"));
 		cursor.moveToFirst();
 		final String resultFeatureName = cursor.getString(cursor.getColumnIndex(FeatureTable.DB_COL_NAME));
+		
+		cursor.close();
+		
 		if(resultFeatureName == null)
 			return null;
 		return new Word(resultFeatureName, trainingData);

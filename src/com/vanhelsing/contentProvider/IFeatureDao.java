@@ -9,4 +9,6 @@ public interface IFeatureDao {
 
 	Feature get(Feature feature);
 
+	int delete(Feature persistedFeature);
+
 }

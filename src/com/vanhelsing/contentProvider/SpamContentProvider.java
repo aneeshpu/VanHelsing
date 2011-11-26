@@ -12,8 +12,7 @@ public class SpamContentProvider extends ContentProvider {
 
 	public static final Uri CLASSIFICATION_URI = ClassificationTable.URI;
 	public static final Uri FEATURE_URI = FeatureTable.URI;
-	public static final Uri CLASSIFICATION_FEATURE_COUNT_URI = Uri
-			.parse(ClassificationFeatureCountTable.URI);
+	public static final Uri CLASSIFICATION_FEATURE_COUNT_URI = Uri.parse(ClassificationFeatureCountTable.URI);
 
 	public static final String AUTHORITY = "com.vanhelsing.contentProvider";
 
@@ -28,8 +27,7 @@ public class SpamContentProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		Log.d("vanhelsing", String.format("running delete with selection:%s and selectionArgs: %s",
-				selection, selectionArgs));
+		Log.d("vanhelsing", String.format("running delete with selection:%s and selectionArgs: %s", selection, selectionArgs));
 		return tableMap.get(uri).delete(selection, getContext());
 	}
 
@@ -53,11 +51,9 @@ public class SpamContentProvider extends ContentProvider {
 	}
 
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-			String sortOrder) {
+	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		Log.d("vanhelsing", "Inside SpamContentProvider.query()");
-		return tableMap.get(uri).query(projection, selection, selectionArgs, sortOrder,
-				getContext());
+		return tableMap.get(uri).query(projection, selection, selectionArgs, sortOrder, getContext());
 	}
 
 	@Override

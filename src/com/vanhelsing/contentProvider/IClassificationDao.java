@@ -14,4 +14,6 @@ public interface IClassificationDao {
 
 	public abstract Category persist(Category category);
 
+	public abstract Category get(long classificationId);
+
 }

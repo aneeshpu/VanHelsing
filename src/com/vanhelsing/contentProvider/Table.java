@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 
 public interface Table {
+	
+	String ID = "_id"; 
 
 	public abstract Cursor query(String[] projection, String selection, String[] selectionArgs, String sortOrder, Context context);
 

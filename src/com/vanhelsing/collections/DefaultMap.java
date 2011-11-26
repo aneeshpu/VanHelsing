@@ -1,7 +1,6 @@
 package com.vanhelsing.collections;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -84,25 +83,4 @@ public class DefaultMap<K, V> implements Map<K, V> {
 	public Collection<V> values() {
 		return map.values();
 	}
-
-	public static DefaultFunction<Map<Classification, Integer>> defaultMapInitializer() {
-		return new DefaultFunction<Map<Classification, Integer>>() {
-	
-			@Override
-			public Map<Classification, Integer> initialize() {
-				return new DefaultMap<Classification, Integer>(new HashMap<Classification, Integer>(), DefaultMap.integerInitialization());
-			}
-		};
-	}
-
-	public static DefaultFunction<Integer> integerInitialization() {
-		return new DefaultFunction<Integer>() {
-	
-			@Override
-			public Integer initialize() {
-				return Integer.valueOf(0);
-			}
-		};
-	}
-
 }

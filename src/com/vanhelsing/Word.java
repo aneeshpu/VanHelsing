@@ -1,6 +1,13 @@
 package com.vanhelsing;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.util.Log;
+
+import com.vanhelsing.collections.DefaultFunctions;
+import com.vanhelsing.collections.DefaultMap;
+import com.vanhelsing.contentProvider.Category;
 
 public class Word implements Feature {
 
@@ -8,6 +15,8 @@ public class Word implements Feature {
 	private static final float WEIGHT = 1;
 	private transient final String feature;
 	private transient final TrainingData trainedData;
+	private DefaultMap<Classification, Integer> classificationCountMap = new DefaultMap<Classification, Integer>(new HashMap<Classification, Integer>(), DefaultFunctions.integerInitialization());
+	private long id;
 
 	// TODO: Fix this. There is no reason for a domain class like Word to take
 	// in the trainedData
@@ -68,8 +77,43 @@ public class Word implements Feature {
 	}
 
 	@Override
-	public String featureName() {
+	public String name() {
 		return feature;
 	}
 
+	@Override
+	public Feature incrementOccurrenceInClassification(Classification classification) {
+		Integer classificationCount = classificationCountMap.get(classification);
+		classificationCountMap.put(classification, ++classificationCount);
+		return this;
+	}
+
+
+	public int numberOfOccurrencesInClassification(Classification classification) {
+		return classificationCountMap.get(classification);
+	}
+
+	@Override
+	public Map<Classification, Integer> getClassificationCountMap() {
+		return classificationCountMap;
+	}
+
+	@Override
+	public long id() {
+		return id;
+	}
+
+	@Override
+	public Feature add(Category category, Integer featureCount) {
+		Log.i("vanhelsing", String.format("Adding category %s to feature %s with featureCount: %d", category, this, featureCount));
+		
+		final Classification classification = category.classification();
+		classificationCountMap.put(classification, featureCount);
+		return this;
+	}
+
+	@Override
+	public void setId(long id) {
+		this.id = id;
+	}
 }

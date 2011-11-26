@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.vanhelsing.collections.DefaultFunctions;
 import com.vanhelsing.collections.DefaultMap;
 import com.vanhelsing.contentProvider.Category;
 import com.vanhelsing.contentProvider.FeatureDao;
@@ -24,10 +25,10 @@ import com.vanhelsing.contentProvider.IFeatureDao;
 public final class TrainingData {
 
 	private transient final DefaultMap<String, Map<Classification, Integer>> featureCount = new DefaultMap<String, Map<Classification, Integer>>(
-			new HashMap<String, Map<Classification, Integer>>(), DefaultMap.defaultMapInitializer());
+			new HashMap<String, Map<Classification, Integer>>(), DefaultFunctions.defaultMapInitializer());
 
 	private transient final Map<Classification, Integer> documentClassificationCount = new DefaultMap<Classification, Integer>(
-			new HashMap<Classification, Integer>(), DefaultMap.integerInitialization());
+			new HashMap<Classification, Integer>(), DefaultFunctions.integerInitialization());
 
 	private final IFeatureDao featureDao;
 
@@ -69,6 +70,9 @@ public final class TrainingData {
 	private void incrementFeatureCount(final Feature feature, final Classification classification) {
 		
 		getFeatureDao().get(feature);
+		
+		feature.incrementOccurrenceInClassification(classification);
+		
 		getFeatureDao().persist(feature);
 		
 		Map<Classification, Integer> classificationCountMap = featureCount.get(feature);

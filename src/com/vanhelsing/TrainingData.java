@@ -22,13 +22,11 @@ import com.vanhelsing.contentProvider.IFeatureDao;
  * @author aneeshpu
  * 
  */
-public final class TrainingData {
+public class TrainingData {
 
-	private transient final DefaultMap<String, Map<Classification, Integer>> featureCount = new DefaultMap<String, Map<Classification, Integer>>(
-			new HashMap<String, Map<Classification, Integer>>(), DefaultFunctions.defaultMapInitializer());
+	private transient final DefaultMap<String, Map<Classification, Integer>> featureCount = new DefaultMap<String, Map<Classification, Integer>>(new HashMap<String, Map<Classification, Integer>>(),			DefaultFunctions.defaultMapInitializer());
 
-	private transient final Map<Classification, Integer> documentClassificationCount = new DefaultMap<Classification, Integer>(
-			new HashMap<Classification, Integer>(), DefaultFunctions.integerInitialization());
+	private transient final Map<Classification, Integer> documentClassificationCount = new DefaultMap<Classification, Integer>(new HashMap<Classification, Integer>(), DefaultFunctions.integerInitialization());
 
 	private final IFeatureDao featureDao;
 
@@ -56,10 +54,9 @@ public final class TrainingData {
 		Integer numberOfDocumentForClassification = documentClassificationCount.get(classification);
 		documentClassificationCount.put(classification, numberOfDocumentForClassification + 1);
 
-		// getClassificationDao().persist(classification,
-		// numberOfDocumentForClassification);
 		final Category category = getClassificationDao().get(classification);
 		category.incrementDocumentCount();
+		
 		getClassificationDao().persist(category);
 	}
 
@@ -68,13 +65,13 @@ public final class TrainingData {
 	}
 
 	private void incrementFeatureCount(final Feature feature, final Classification classification) {
-		
+
 		getFeatureDao().get(feature);
-		
+
 		feature.incrementOccurrenceInClassification(classification);
-		
+
 		getFeatureDao().persist(feature);
-		
+
 		Map<Classification, Integer> classificationCountMap = featureCount.get(feature);
 
 		Integer count = classificationCountMap.get(classification);
@@ -86,12 +83,13 @@ public final class TrainingData {
 		return featureDao;
 	}
 
-	protected float numberOfDocumentsInTheCategory(final Classification classification) {
-		return documentClassificationCount.get(classification);
+	public float numberOfDocumentsInTheCategory(final Classification classification) {
+		final Category category = classificationDao.get(classification);
+		return category.documentCount();
+//		return documentClassificationCount.get(classification);
 	}
 
-	protected float numberOfDocumentsTheFeatureOccurredIn(final Feature feature,
-			final Classification classification) {
+	public float numberOfDocumentsTheFeatureOccurredIn(final Feature feature, final Classification classification) {
 		return featureCount.get(feature).get(classification);
 	}
 

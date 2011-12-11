@@ -22,7 +22,6 @@ public class Word implements Feature {
 	// in the trainedData
 	public Word(final String feature, final TrainingData trainedData) {
 		this.feature = feature;
-
 		this.trainedData = trainedData;
 	}
 

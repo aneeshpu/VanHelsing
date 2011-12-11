@@ -50,6 +50,7 @@ public class NaiveBayesianClassifier implements Classifier {
 
 	private Probability probabilityOfCategory(final Classification classification) {
 		float probabilityValue = trainingData.numberOfDocumentsInTheCategory(classification) / trainingData.totalNumberOfDocuments();
+		
 		Log.i("vanhelsing", String.format("Pr(%s)=%f", classification, probabilityValue));
 		return new Probability(probabilityValue);
 	}

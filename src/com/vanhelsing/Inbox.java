@@ -1,7 +1,5 @@
 package com.vanhelsing;
 
-import com.vanhelsing.contentProvider.TrainingDataDao;
-
 import android.app.ListActivity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -36,8 +34,6 @@ public class Inbox extends ListActivity {
 		ListView listView = getListView();
 		listView.setTextFilterEnabled(true);
 		
-		ContentResolver contentResolver = getContentResolver();
-
 		registerForContextMenu(listView);
 
 	}
@@ -67,7 +63,7 @@ public class Inbox extends ListActivity {
 		TextView textView = (TextView) targetView.getChildAt(0);
 		final TrainingData trainingData = ClassifierFactory.makeClassifier(this).markAsSpam(new DocumentFactory().makeDocument((String) textView.getText(), TrainerFactory.trainingData(this)));
 		
-		new TrainingDataDao(this).saveOrUpdate(trainingData);
+//		new TrainingDataDao(this).saveOrUpdate(trainingData);
 		final ContentValues contentValues = makeContentValues(trainingData);
 		return true;
 	}
